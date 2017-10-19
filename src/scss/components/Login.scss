@@ -1,0 +1,46 @@
+#login{
+	
+	 height:100vh;
+	 
+	 
+	#LoginPanel{
+
+		text-align:center;
+		text-align: center;
+		border: 1px solid $color-Primary;
+		background-color: $color-Primary;
+		margin: 5% 15%;
+		padding: 5% 5% 8%;
+		
+		@include border-radius(20px);
+	
+		h1{
+			margin:0;
+			color:$color-h1;
+			}
+		
+		h2{
+			color:$color-h1;
+			}
+		p{
+			color:$color-p;
+			}
+		
+		img{
+			
+			}
+		
+		form{
+			
+			input{
+					@include border-radius(20px);
+					padding: 0 20px;
+					height: 70px;
+					font-size: 25px;
+					border:1px solid black;
+				
+			}
+		}
+	
+	}
+}

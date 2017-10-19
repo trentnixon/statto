@@ -1,0 +1,84 @@
+/* Base Styles */
+	/* Colors */
+
+		$color-Primary:#d9e0e7; 
+		$color-bg-Secondary:#f1f2f2;
+		$color-bg-Footer:#141414;
+		
+		$color-h1:#242a30;
+		$color-h2:#242a30;
+		$color-h3:#7c7f83;
+		$color-h4:#7c7f83;
+		$color-p:#7c7f83;
+		$color-p-secondary:#7c7f83;
+		$color-span:#7c7f83;
+		$color-footer:#242a30;
+		
+		$color-a:#fff;
+		$color-a-hover:#f36f25;
+		
+		$color-nav-a:#4c4d4f;
+		$color-nav-a-hover:#1a9bd7;
+		
+		
+	 /* Fonts */
+
+		$font-header:'Montserrat', sans-serif;
+		$font-paragraph:'Roboto', sans-serif;
+		$font-regular: 'Roboto', sans-serif;
+		$font-link:'Roboto', sans-serif;
+		$font-nav:'Montserrat', sans-serif;
+		
+		$primary-font-color: #fff;
+		$secondary-font-color: #333;
+		$paragraph-font-color: #fff;
+		$paragraph-secondary-font-color: #333;
+		$a:#333;
+		$a-active:#333;
+		$a-hover:#333;
+	 
+	 /* Sizing */
+	 	$size-hero:40px;
+		$size-hero-sub:24px;
+	 	$size-h1:36px;
+		$size-h2:26px;
+		$size-h3:18px;
+		$size-h4:18px;
+		$size-p:16px;
+		$size-span:16px;
+	 
+	 
+	 	$lineheight-h1:40px;
+	 	$lineheight-p: 24px;
+	 
+	 /* Layout Defined */
+	
+		$sectionpadding: 45px 0;
+		$sectionMobilepadding: 25px 0;
+		$sectionMobileMargin: 7px 0;
+		$parallaxHeight:560px;
+		
+		$h1-margin: 0 0 30px 0;
+		
+		
+		
+		
+		
+	/* Mixins */	
+
+	@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+	@mixin btn-style() {
+		background-color: $color-h1;
+		background-image: none;
+		border: none;
+		border-radius: 50px;
+		padding: 6px 30px;
+		font-size: 15px;
+		outline:none;
+	}

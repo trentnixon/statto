@@ -1,0 +1,246 @@
+// JavaScript Document
+import store from "../store/store";
+import axios from 'axios';
+
+import { clean_Player } from "./Data_Clean";
+
+
+/* *************************************************** */
+/* Action Functions */
+/* *************************************************** */
+
+function foo(arr) {
+		var a = [], b = [], prev;
+		arr.sort();
+		for ( var i = 0; i < arr.length; i++ ) {
+			if ( arr[i] !== prev ) {
+				a.push(arr[i]);
+				b.push(1);
+			} else {
+				b[b.length-1]++;
+			}
+			prev = arr[i];
+		}
+		return [a, b];
+	}
+	
+/* *************************************************** */
+/* *************************************************** */
+export function FindPlayersStats(Tag){ 
+
+	const request = axios.get("/lms/wp-json/wp/v2/lms_player_data/?tags="+Tag+'&per_page=1000');
+
+	return (dispatch) => {
+			request.then(({data}) =>{ clean_Player(data) })
+		};
+	}
+// Register Game Data
+
+/* PLAYER NAME AND PLAYER ID */
+export function Register_Player_Name(Name)
+	{	
+		return (dispatch) => {
+				dispatch({type:"SET_UI_PLAYER_NAME_FETCHED",payload:Name});
+		}
+	}
+
+export function Register_Player_WP_ID(ID)
+	{	
+		return (dispatch) => {
+				dispatch({type:"SET_UI_PLAYER_WP_ID_FETCHED",payload:ID});
+		}
+	}
+	
+/* END Player NAME */
+
+
+/* *************************************************** */
+/* GAME DATA */
+/* *************************************************** */
+export function AddGameArrayToWP(Games)
+	{
+
+		let i=0, num=0, Games_Played = Games.length;
+		let ArrayCount=[];
+		// Set Game Num in Store
+		store.dispatch({ type:"SET_UI_NUM_GAMES_FOUND_FETCHED",payload:Games_Played });
+		
+		// If no Result, Return to UI with 0
+		if(Games_Played == 0 ){ store.dispatch({ type:"SET_UI_GAME_ADDED_FETCHED",payload:-1 }); }
+		// else loop through array every 4 secs to not overload the server
+		else{
+			
+			var intervalId = setInterval( function(){
+				
+				if(Games[i] != null)
+					{	
+						const request = axios.post("/lms/ajax/AddGametoWP.php", Games[i]);
+						  request.then(({data}) =>{ 
+								
+								ArrayCount.push(data.GameID);
+								
+								// Update the UI
+								store.dispatch({ type:"SET_UI_GAME_ADDED_FETCHED",payload:ArrayCount.length});	
+								
+								// Stop the Loop
+								if(ArrayCount.length == Games_Played ){  clearInterval(intervalId) }				
+						})
+					  request.catch(function(reason) { console.log(reason) })	
+					}
+				i++;
+
+		// Close Interval
+		}.bind(this), 3500);
+	}
+		
+		// Return UI True
+		return (dispatch) => {
+				dispatch({type:"SET_REGISTERED_PLAYER_FETCHED",payload:true});
+			}
+	}
+
+
+/* END GAME DATA */	
+
+/* *************************************************** */	
+// SET UI Data	
+/* *************************************************** */
+export function SetLiveStats()
+	{
+		return (dispatch) => {
+				dispatch({type:"SET_LIVE_FETCHED",payload:{Live:true}});
+			}
+		}	
+
+export function CreateUserUI(data)
+	{
+		return (dispatch) => {
+				dispatch({type:"SET_UI_PLAYER_FETCHED",payload:data});
+		}
+			
+}
+
+export function SetProfileUpdate(data)
+	{
+		return (dispatch) => {
+				dispatch({type:"SET_UI_UPDATEPROFILE",payload:data});
+		}
+			
+}
+export function SetProfileUpdateProgress(data)
+	{
+		return (dispatch) => {
+				dispatch({type:"SET_UI_UPDATEPROFILE_PROGRESS",payload:data});
+		}
+			
+}
+
+export function SetSearchBar(data)
+	{
+		return (dispatch) => {
+				dispatch({type:"SET_SEARCH_BAR",payload:data});
+		}
+		
+		}
+
+export function SetStatto(data){
+		return (dispatch) => {
+				dispatch({type:"SET_STATTO_UPDATE",payload:data});
+		}
+	}
+/* *************************************************** */
+/* Scorecard*/
+/* *************************************************** */
+
+
+export function scorecard(GameID,first,second)
+	{
+		const request = axios.get("/lms/wp-json/wp/v2/lms_game/?slug="+GameID);
+		 request.then(({data}) =>{ 
+					store.dispatch({ type:"SET_SCORECARD",payload:data});									
+				})	
+		}
+/* *************************************************** */
+/* My Teams */
+/* *************************************************** */
+
+export function StoreTeams(id)
+	{
+		
+		const request = axios.get("/lms/wp-json/wp/v2/lms_team_data/?slug="+id);
+		 request.then(({data}) =>{ 
+		 // if no results found
+		 console.log(data);
+			if(data["0"].meta)
+				{  store.dispatch({ type:"SET_SELECTED_TEAM",payload:data["0"].meta.Team_Results["0"]});								
+				}
+			else
+				{
+					store.dispatch({ type:"SET_SELECTED_TEAM",payload:false})
+			}
+		})	
+	}
+
+export function SelectedTeamID(id)
+	{	store.dispatch({ type:"SET_SELECTED_TEAM_ID",payload:id});	}
+
+
+export function Team_Select_Year(year)
+	{  store.dispatch({ type:"SET_SELECTED_TEAM_YEAR",payload:year}); }	
+	
+export function Team_Select_Grade(grade)
+	{  store.dispatch({ type:"SET_SELECTED_TEAM_GRADE",payload:grade}); }
+	
+export function Team_Missing_Games(Num)
+	{  store.dispatch({ type:"SET_TEAM_MISSING_GAMES_NUM",payload:Num}); }	
+	
+// 	
+	
+export function FetchFilteredGames(str)
+	{
+		
+		const request = axios.get("/lms/wp-json/wp/v2/lms_game/?slug="+str+'&per_page=1000');
+		 request.then(({data}) =>{ 
+		 		// console.log(data)
+				 store.dispatch({ type:"SET_FILTERED_GAME_RESULTS",payload:data});	
+		})	
+	}		
+
+// Fetch missing games for Team stats
+export function FetchMissingGames(obj)
+	{
+	if(obj.length > 0)
+		{
+			// set UI to update
+			console.log(obj);
+			let i=0, num=0, Games_Played = obj.length;
+			let ArrayCount=[];
+			
+			var intervalId = setInterval( function(){
+				
+				if(obj[i] != null)
+					{	
+						console.log(obj[i]);
+						const request = axios.get("/lms/ajax/Register_Team_Game.php?GameID="+obj[i]);
+						  request.then(({data}) =>{ 
+								
+								ArrayCount.push(i);
+								
+								console.log(ArrayCount, ArrayCount.length,Games_Played)
+								// Update the UI
+								//store.dispatch({ type:"SET_UI_GAME_ADDED_FETCHED",payload:ArrayCount.length});	
+								
+								// Stop the Loop
+								if(ArrayCount.length == Games_Played ){  clearInterval(intervalId) }				
+						})
+					  request.catch(function(reason) { console.log(reason) })	
+					}
+				i++;
+
+			// Close Interval
+			}.bind(this), 5000);
+			
+			//store.dispatch({ type:"SET_TEAM_MISSING_GAMES_NUM",payload:obj.length});
+			// const request = axios.get("/lms/ajax/Register_Team_Game.php?GameID="+ExtendThis[i]);	
+	}
+}	

@@ -1,0 +1,105 @@
+/*CSSDocument*/
+/*Restset*/html,body,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}/*HTML5display-roleresetforolderbrowsers*/article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}table{border-collapse:collapse;border-spacing:0;}
+
+
+/* HTML */
+
+
+	body.app{
+		font-family:$font-paragraph;
+		background-color:$color-Primary;
+
+
+/* **************************************************************** */
+/* Typograhy */
+/* **************************************************************** */
+h1,h2,h3,h4{
+		font-family: $font-header;
+		line-height:$lineheight-h1;
+	}
+
+	h1{
+		color: $color-h1;
+		font-size:$size-h1;
+		text-transform:uppercase;
+		margin:$h1-margin;
+}
+	h2{
+		color: $color-h2;
+}
+	h3{
+		color: $color-h3;
+}
+	h4{
+		color: $color-h4;
+}
+
+	p{
+		font-family:$font-paragraph;
+		color: $color-p;
+		font-size:$size-p;
+		line-height:$lineheight-p;
+}
+
+	span{
+		color:$color-span;
+}
+
+	.error{
+}
+
+
+/* **************************************************************** */
+/* Links, Buttons and Navigations */
+/* **************************************************************** */
+
+
+	a{
+		font-family:$font-link;
+		color:$a;
+}
+
+	a:hover{
+		color:$a-hover;
+}
+
+	a:active{
+		color:$a-active;
+	
+}
+
+
+/* **************************************************************** */
+/* Layout */
+/* **************************************************************** */
+
+.nopadding{ 
+	padding-left:0;
+	padding-right:0
+}
+.nomargin{
+	margin-left:0;
+	margin-right:0;	
+	}
+
+.text-center{ text-align:center;}
+
+/* **************************************************************** */
+/* Sections  and Divs*/
+/* **************************************************************** */
+
+section{
+	padding:$sectionpadding;	
+	}
+
+.secondary{ background-color:$color-bg-Secondary;}
+
+.content-dark{
+		h1,h2,h3,h4,p{ color:$color-p-secondary}
+	}
+	
+/* **************************************************************** */
+/* close body tag */
+/* **************************************************************** */	
+
+}
